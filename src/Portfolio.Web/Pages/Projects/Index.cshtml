@@ -1,0 +1,38 @@
+@page
+@model Portfolio.Web.Pages.Projects.IndexModel
+@{
+    ViewData["Title"] = "Projects";
+    ViewData["Description"] = "Things I've built: tools, experiments, apps and games.";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Projects</h1>
+        <p class="page-lede">Things I've built: tools, experiments, apps and games.</p>
+        @if (Model.AllTags.Count > 0)
+        {
+            <nav class="filter-bar" aria-label="Filter by tag">
+                <a href="/projects" class="chip" aria-current="@(Model.Tag is null ? "true" : "false")">All <span>@Model.Total</span></a>
+                @foreach (var (tag, count) in Model.AllTags)
+                {
+                    <a href="/projects?tag=@Uri.EscapeDataString(tag)" class="chip" aria-current="@(string.Equals(tag, Model.Tag, StringComparison.OrdinalIgnoreCase) ? "true" : "false")">@tag <span>@count</span></a>
+                }
+            </nav>
+        }
+    </div>
+</section>
+
+<section class="section section-tight">
+    <div class="container">
+        @if (Model.Projects.Count == 0)
+        {
+            <p class="empty">No projects tagged “@Model.Tag” yet.</p>
+        }
+        <div class="project-grid">
+            @foreach (var project in Model.Projects)
+            {
+                <partial name="_ProjectCard" model="project" />
+            }
+        </div>
+    </div>
+</section>

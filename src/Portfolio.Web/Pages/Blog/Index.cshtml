@@ -1,0 +1,53 @@
+@page
+@model Portfolio.Web.Pages.Blog.IndexModel
+@{
+    ViewData["Title"] = Model.Tag is null ? "Blog" : $"Posts tagged “{Model.Tag}”";
+    ViewData["Description"] = "Notes on the cool things I find in the coding world.";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Blog</h1>
+        <p class="page-lede">Notes on the cool things I find in the coding world. <a href="/feed.xml">Subscribe via RSS</a>.</p>
+        @if (Model.AllTags.Count > 0)
+        {
+            <nav class="filter-bar" aria-label="Filter by tag">
+                <a href="/blog" class="chip" aria-current="@(Model.Tag is null ? "true" : "false")">All</a>
+                @foreach (var tag in Model.AllTags)
+                {
+                    <a href="/blog?tag=@Uri.EscapeDataString(tag)" class="chip" aria-current="@(string.Equals(tag, Model.Tag, StringComparison.OrdinalIgnoreCase) ? "true" : "false")">@tag</a>
+                }
+            </nav>
+        }
+    </div>
+</section>
+
+<section class="section section-tight">
+    <div class="container">
+        @if (Model.Posts.Count == 0)
+        {
+            <p class="empty">Nothing here yet.</p>
+        }
+        <ul class="post-list">
+            @foreach (var post in Model.Posts)
+            {
+                <partial name="_PostItem" model="post" />
+            }
+        </ul>
+
+        @if (Model.TotalPages > 1)
+        {
+            var tagQuery = Model.Tag is null ? "" : $"&tag={Uri.EscapeDataString(Model.Tag)}";
+            <nav class="pager" aria-label="Pages">
+                @if (Model.CurrentPage > 1)
+                {
+                    <a class="pager-link pager-prev" href="/blog?page=@(Model.CurrentPage - 1)@tagQuery"><span>Newer</span>Page @(Model.CurrentPage - 1)</a>
+                }
+                @if (Model.CurrentPage < Model.TotalPages)
+                {
+                    <a class="pager-link pager-next" href="/blog?page=@(Model.CurrentPage + 1)@tagQuery"><span>Older</span>Page @(Model.CurrentPage + 1)</a>
+                }
+            </nav>
+        }
+    </div>
+</section>

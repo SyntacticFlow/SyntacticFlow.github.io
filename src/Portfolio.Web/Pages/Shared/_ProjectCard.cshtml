@@ -1,0 +1,16 @@
+@model Project
+<article class="project-card">
+    <a class="project-card-link" href="/projects/@Model.Slug">
+        <div class="project-cover">
+            @if (Model.Cover is not null)
+            {
+                <img src="@Model.Cover" alt="" loading="lazy" />
+            }
+        </div>
+        <div class="project-card-body">
+            <h3 class="project-title">@Model.Title</h3>
+            <p class="project-summary">@Model.Summary</p>
+            <partial name="_Tags" model="Model.Tech" />
+        </div>
+    </a>
+</article>

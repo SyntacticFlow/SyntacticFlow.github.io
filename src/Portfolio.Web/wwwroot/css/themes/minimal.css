@@ -1,0 +1,104 @@
+/* Minimal — editorial. Serif headlines, warm paper tones, flat surfaces, lots of air. */
+
+:root {
+    --bg: #fbfaf7;
+    --bg-alt: #f1eee7;
+    --surface: transparent;
+    --text: #1d1c1a;
+    --text-muted: #6d6a63;
+    --border: #e4dfd4;
+    --accent: #b4441f;
+    --accent-text: #ffffff;
+    --link: #1d1c1a;
+    --code-bg: #f3f0e9;
+    --code-text: #2b2a27;
+
+    --tok-keyword: #a3361b;
+    --tok-string: #3f6b3a;
+    --tok-comment: #8d887d;
+    --tok-number: #8a5a12;
+    --tok-title: #244a8f;
+    --tok-type: #7a3f8c;
+
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-heading: "Newsreader", Georgia, serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --heading-weight: 400;
+    --heading-tracking: -0.01em;
+
+    --radius: 3px;
+    --radius-lg: 4px;
+    --maxw: 1080px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #161513;
+        --bg-alt: #1f1d1a;
+        --text: #ebe7df;
+        --text-muted: #a29d92;
+        --border: #34312b;
+        --accent: #e07a52;
+        --accent-text: #161513;
+        --link: #ebe7df;
+        --code-bg: #1f1d1a;
+        --code-text: #e5e1d8;
+        --tok-keyword: #f08d6a;
+        --tok-string: #a5c99c;
+        --tok-comment: #8a857a;
+        --tok-number: #e3b26b;
+        --tok-title: #8fb2f0;
+        --tok-type: #c9a2e0;
+    }
+}
+
+body { font-size: 1.04rem; }
+
+.site-header { border-bottom: 0; }
+.header-inner { min-height: 84px; }
+.brand-mark { display: none; }
+.brand-name { font-size: 1.35rem; font-style: italic; font-weight: 400; }
+.site-nav a { font-size: 0.92rem; color: var(--text); }
+.site-nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 6px; }
+
+.hero { padding-top: clamp(48px, 9vw, 110px); border-bottom: 1px solid var(--border); }
+.hero-kicker { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; }
+.hero-title { font-size: clamp(2.5rem, 6vw, 4.4rem); line-height: 1.08; }
+.hero-lede { font-family: var(--font-heading); font-size: clamp(1.15rem, 2.2vw, 1.4rem); font-style: italic; }
+.btn { border-radius: 0; border-color: var(--text); background: transparent; }
+.btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+.btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-text); filter: none; }
+
+.section-head { border-bottom: 1px solid var(--text); padding-bottom: 12px; }
+.section-title { font-size: 0.85rem; font-family: var(--font-body); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; }
+
+.project-card { border: 0; border-radius: 0; }
+.project-card:hover { border-color: transparent; }
+.project-cover { border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.project-card-body { padding: 16px 0 8px; }
+.project-title { font-size: 1.5rem; }
+.project-card:hover .project-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+
+.tag-list { gap: 4px 14px; }
+.tag {
+    background: none; padding: 0; border-radius: 0;
+    color: var(--text-muted); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+.post-list { border-top: 0; }
+.post-title { font-size: 1.6rem; }
+.post-item-link:hover .post-title { color: var(--accent); }
+
+.chip { border-radius: 0; border-color: transparent; padding-inline: 0; margin-right: 14px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em; }
+.chip[aria-current="true"] { background: none; color: var(--text); border-color: transparent; text-decoration: underline; text-underline-offset: 5px; }
+
+.detail-title, .post-heading, .page-title { font-size: clamp(2.4rem, 6vw, 3.8rem); }
+.detail-lede { font-family: var(--font-heading); font-style: italic; font-size: 1.35rem; }
+.prose { font-size: 1.1rem; }
+.prose a { text-decoration-color: var(--accent); }
+.prose h2 { font-size: 1.85rem; }
+.prose blockquote { font-family: var(--font-heading); font-size: 1.25rem; border-left-color: var(--text); }
+.pager-link { font-size: 1.25rem; }
+
+::selection { background: #f0d3c5; color: #1d1c1a; }

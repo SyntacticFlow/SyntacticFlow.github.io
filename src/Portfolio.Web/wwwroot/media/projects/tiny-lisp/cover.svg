@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" font-family="JetBrains Mono, Menlo, monospace">
+<rect width="1280" height="800" fill="#16161e"/>
+<text x="96" y="120" font-size="22" fill="#c0caf5" opacity=".45">; lisp.rs — a 600-line interpreter</text>
+<text x="96" y="200" font-size="40" fill="#c0caf5" xml:space="preserve"><tspan fill="#7aa2f7">(</tspan>define <tspan fill="#bb9af7">(</tspan>fib n<tspan fill="#bb9af7">)</tspan></text>
+<text x="96" y="264" font-size="40" fill="#c0caf5" xml:space="preserve">  <tspan fill="#bb9af7">(</tspan>if <tspan fill="#9ece6a">(</tspan>&lt; n 2<tspan fill="#9ece6a">)</tspan></text>
+<text x="96" y="328" font-size="40" fill="#c0caf5" xml:space="preserve">      n</text>
+<text x="96" y="392" font-size="40" fill="#c0caf5" xml:space="preserve">      <tspan fill="#9ece6a">(</tspan>+ <tspan fill="#e0af68">(</tspan>fib <tspan fill="#f7768e">(</tspan>- n 1<tspan fill="#f7768e">)</tspan><tspan fill="#e0af68">)</tspan></text>
+<text x="96" y="456" font-size="40" fill="#c0caf5" xml:space="preserve">         <tspan fill="#e0af68">(</tspan>fib <tspan fill="#f7768e">(</tspan>- n 2<tspan fill="#f7768e">)</tspan><tspan fill="#e0af68">)</tspan><tspan fill="#9ece6a">)</tspan><tspan fill="#bb9af7">)</tspan><tspan fill="#7aa2f7">)</tspan></text>
+<text x="96" y="580" font-size="36" fill="#bb9af7" xml:space="preserve">λ&gt; <tspan fill="#c0caf5">(fib 20)</tspan></text>
+<text x="96" y="636" font-size="36" fill="#c0caf5" opacity=".6" xml:space="preserve">⇒ 6765</text>
+</svg>

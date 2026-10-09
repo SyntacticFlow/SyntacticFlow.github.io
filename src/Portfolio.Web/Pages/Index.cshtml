@@ -1,0 +1,59 @@
+@page
+@inject ContentStore Store
+@inject IOptionsSnapshot<SiteOptions> SiteOptions
+@{
+    var site = SiteOptions.Value;
+    var featured = Store.Projects.Where(p => p.Featured).Take(6).ToList();
+    if (featured.Count == 0) featured = Store.Projects.Take(6).ToList();
+    var posts = Store.Posts.Take(3).ToList();
+}
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-inner">
+        <p class="hero-kicker">
+            <span class="prompt" aria-hidden="true">~ $ whoami</span>
+            <span class="kicker-text">Hi, I'm @site.Author</span>
+        </p>
+        <h1 class="hero-title">@site.Tagline</h1>
+        <p class="hero-lede">@site.Description</p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="/projects">See my work</a>
+            <a class="btn" href="/blog">Read the blog</a>
+        </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <h2 class="section-title">Featured projects</h2>
+            <a class="section-more" href="/projects">All @Store.Projects.Count projects →</a>
+        </div>
+        <div class="project-grid">
+            @foreach (var project in featured)
+            {
+                <partial name="_ProjectCard" model="project" />
+            }
+        </div>
+    </div>
+</section>
+
+@if (posts.Count > 0)
+{
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title">Latest writing</h2>
+                <a class="section-more" href="/blog">All posts →</a>
+            </div>
+            <ul class="post-list">
+                @foreach (var post in posts)
+                {
+                    <partial name="_PostItem" model="post" />
+                }
+            </ul>
+        </div>
+    </section>
+}

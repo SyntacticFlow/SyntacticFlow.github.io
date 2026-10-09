@@ -1,0 +1,30 @@
+@page
+@inject ContentStore Store
+@{
+    var about = Store.FindPage("about");
+    ViewData["Title"] = about?.Title ?? "About";
+    ViewData["Description"] = about?.Summary;
+}
+
+<section class="page-header">
+    <div class="container container-narrow">
+        <h1 class="page-title">@(about?.Title ?? "About")</h1>
+        @if (!string.IsNullOrEmpty(about?.Summary))
+        {
+            <p class="page-lede">@about.Summary</p>
+        }
+    </div>
+</section>
+
+<div class="container container-narrow">
+    <div class="prose">
+        @if (about is not null)
+        {
+            @Html.Raw(about.Html)
+        }
+        else
+        {
+            <p>Add <code>Content/pages/about.md</code> to fill in this page.</p>
+        }
+    </div>
+</div>

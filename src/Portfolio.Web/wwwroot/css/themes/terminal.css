@@ -1,0 +1,107 @@
+/* Terminal — dark, monospaced, developer-first. Prompts, brackets and a blinking cursor. */
+
+:root {
+    --bg: #0b0e14;
+    --bg-alt: #11151d;
+    --surface: #0e1219;
+    --text: #d6dde6;
+    --text-muted: #7f8a99;
+    --border: #222a36;
+    --accent: #7ee787;
+    --accent-text: #0b0e14;
+    --amber: #e3b341;
+    --link: #79c0ff;
+    --code-bg: #0e1219;
+    --code-text: #d6dde6;
+
+    --tok-keyword: #ff7b72;
+    --tok-string: #a5d6ff;
+    --tok-comment: #6e7887;
+    --tok-number: #79c0ff;
+    --tok-title: #d2a8ff;
+    --tok-type: #ffa657;
+
+    --font-body: "JetBrains Mono", ui-monospace, monospace;
+    --font-heading: var(--font-body);
+    --font-mono: var(--font-body);
+    --heading-weight: 700;
+    --heading-tracking: -0.02em;
+
+    --radius: 4px;
+    --radius-lg: 6px;
+    color-scheme: dark;
+}
+
+body { font-size: 0.95rem; line-height: 1.7; }
+
+.brand { gap: 0; }
+.brand-mark { width: auto; height: auto; background: none; }
+.brand-mark::before { content: "~/"; color: var(--accent); font-weight: 700; }
+.brand-name { font-weight: 700; text-transform: lowercase; }
+.brand-name::after { content: " $"; color: var(--text-muted); font-weight: 400; }
+.site-nav a { text-transform: lowercase; font-size: 0.9rem; }
+.site-nav a::before { content: "./"; color: var(--text-muted); opacity: 0.6; }
+.site-nav a[aria-current="page"] { color: var(--accent); }
+
+.hero { border-bottom: 1px dashed var(--border); }
+.hero-kicker { display: grid; gap: 4px; }
+.hero-kicker .prompt { display: block; color: var(--accent); }
+.hero-kicker .kicker-text { color: var(--text-muted); }
+.hero-kicker .kicker-text::before { content: "# "; }
+.hero-title { font-size: clamp(1.75rem, 4.2vw, 3rem); line-height: 1.25; }
+.hero-title::after {
+    content: ""; display: inline-block; width: 0.55em; height: 1em; margin-left: 0.15em;
+    background: var(--accent); vertical-align: -0.12em; animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.hero-lede { font-size: 1rem; }
+
+.btn { border-radius: var(--radius); background: transparent; border-color: var(--border); font-weight: 500; font-family: var(--font-body); }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn-primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.btn-primary::before { content: "$"; opacity: 0.6; }
+.btn-primary:hover { color: var(--accent-text); }
+
+.section-title { font-size: 1.15rem; }
+.section-title::before { content: "## "; color: var(--accent); }
+.section-more { font-size: 0.85rem; }
+
+.page-title::before, .detail-title::before, .post-heading::before { content: "# "; color: var(--accent); }
+
+.project-card { background: var(--surface); }
+.project-card:hover { border-color: var(--accent); }
+.project-cover img { filter: saturate(0.85) contrast(1.05); }
+.project-title { font-size: 1.05rem; }
+.project-card:hover .project-title { color: var(--accent); }
+.project-summary { font-size: 0.88rem; }
+
+.tag { background: none; padding: 0; color: var(--amber); font-size: 0.78rem; border-radius: 0; }
+.tag::before { content: "["; color: var(--text-muted); }
+.tag::after { content: "]"; color: var(--text-muted); }
+
+.post-list { border-top-style: dashed; }
+.post-item { border-bottom-style: dashed; }
+.post-date { color: var(--amber); font-size: 0.82rem; }
+.post-title { font-size: 1.05rem; }
+.post-title::before { content: "> "; color: var(--accent); }
+.post-summary, .post-meta { font-size: 0.88rem; }
+
+.chip { border-radius: var(--radius); font-size: 0.8rem; }
+.chip[aria-current="true"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+
+.detail-title, .post-heading { font-size: clamp(1.7rem, 4vw, 2.5rem); }
+.detail-lede { font-size: 1.02rem; }
+.detail-meta dt { color: var(--amber); }
+.prose { font-size: 0.95rem; }
+.prose h2 { font-size: 1.25rem; }
+.prose h2::before { content: "## "; color: var(--accent); }
+.prose h3 { font-size: 1.05rem; }
+.prose h3::before { content: "### "; color: var(--accent); }
+.prose blockquote { font-style: normal; border-left-color: var(--amber); }
+.prose pre { border-color: var(--border); }
+.prose :not(pre) > code { color: var(--amber); background: var(--bg-alt); }
+
+.site-footer { border-top-style: dashed; }
+.footer-copy::before { content: "// "; }
+
+::selection { background: var(--accent); color: var(--accent-text); }

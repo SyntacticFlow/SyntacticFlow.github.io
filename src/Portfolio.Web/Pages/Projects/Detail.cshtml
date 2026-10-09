@@ -1,0 +1,111 @@
+@page "/projects/{slug}"
+@model Portfolio.Web.Pages.Projects.DetailModel
+@{
+    var p = Model.Project;
+    ViewData["Title"] = p.Title;
+    ViewData["Description"] = p.Summary;
+    ViewData["Image"] = p.Cover;
+}
+
+<article class="project-detail">
+    <header class="detail-header">
+        <div class="container container-narrow">
+            <a class="back-link" href="/projects">← All projects</a>
+            <h1 class="detail-title">@p.Title</h1>
+            <p class="detail-lede">@p.Summary</p>
+            <dl class="detail-meta">
+                @if (p.Date != default)
+                {
+                    <div><dt>Year</dt><dd>@p.Date.Year</dd></div>
+                }
+                @if (p.Tech.Count > 0)
+                {
+                    <div><dt>Built with</dt><dd>@string.Join(" · ", p.Tech)</dd></div>
+                }
+                @if (p.Tags.Count > 0)
+                {
+                    <div><dt>Topics</dt><dd>@string.Join(" · ", p.Tags)</dd></div>
+                }
+            </dl>
+            @if (p.RepoUrl is not null || p.LiveUrl is not null)
+            {
+                <div class="detail-actions">
+                    @if (p.LiveUrl is not null)
+                    {
+                        <a class="btn btn-primary" href="@p.LiveUrl" rel="noopener">Try it live ↗</a>
+                    }
+                    @if (p.RepoUrl is not null)
+                    {
+                        <a class="btn" href="@p.RepoUrl" rel="noopener">Source code ↗</a>
+                    }
+                </div>
+            }
+        </div>
+    </header>
+
+    <div class="container">
+        <figure class="detail-media">
+            @if (p.Video is { Kind: VideoKind.File } file)
+            {
+                <video controls preload="metadata" playsinline poster="@(p.Poster ?? p.Cover)">
+                    <source src="@file.Url" type="@Media.MimeType(file.Url)" />
+                </video>
+            }
+            else if (p.Video is { } embed)
+            {
+                <div class="embed">
+                    <iframe src="@embed.Url" title="@p.Title video" loading="lazy"
+                            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+                </div>
+            }
+            else if (p.Cover is not null)
+            {
+                <img src="@p.Cover" alt="@p.Title" />
+            }
+        </figure>
+    </div>
+
+    <div class="container container-narrow">
+        <div class="prose">
+            @Html.Raw(p.Html)
+        </div>
+    </div>
+
+    @if (p.Gallery.Count > 0)
+    {
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Gallery</h2>
+                <div class="gallery">
+                    @foreach (var item in p.Gallery)
+                    {
+                        <figure class="gallery-item">
+                            <a href="@item.Src" data-lightbox data-caption="@item.Caption">
+                                <img src="@item.Src" alt="@(item.Caption ?? p.Title)" loading="lazy" />
+                            </a>
+                            @if (item.Caption is not null)
+                            {
+                                <figcaption>@item.Caption</figcaption>
+                            }
+                        </figure>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+
+    <nav class="pager container" aria-label="More projects">
+        @if (Model.Previous is { } prev)
+        {
+            <a class="pager-link pager-prev" href="/projects/@prev.Slug"><span>Previous</span>@prev.Title</a>
+        }
+        @if (Model.Next is { } next)
+        {
+            <a class="pager-link pager-next" href="/projects/@next.Slug"><span>Next</span>@next.Title</a>
+        }
+    </nav>
+</article>
+
+@section Scripts {
+    <partial name="_Highlight" />
+}

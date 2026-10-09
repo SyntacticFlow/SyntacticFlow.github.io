@@ -1,0 +1,86 @@
+@inject IOptionsSnapshot<SiteOptions> SiteOptions
+@{
+    var site = SiteOptions.Value;
+    var theme = Themes.Resolve(Context, site);
+    var path = Context.Request.Path.Value ?? "/";
+    var pageTitle = ViewData["Title"] is string t && t.Length > 0 ? $"{t} · {site.Title}" : $"{site.Title} — {site.Tagline}";
+    var description = ViewData["Description"] as string is { Length: > 0 } d ? d : site.Description;
+    var ogImage = ViewData["Image"] as string;
+    string Current(string section) => path.StartsWith(section, StringComparison.OrdinalIgnoreCase) ? "page" : "false";
+}
+<!DOCTYPE html>
+<html lang="en" data-theme="@theme.Id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@pageTitle</title>
+    <meta name="description" content="@description" />
+    <meta property="og:title" content="@(ViewData["Title"] ?? site.Title)" />
+    <meta property="og:description" content="@description" />
+    @if (ogImage is not null)
+    {
+        <meta property="og:image" content="@(site.BaseUrl.TrimEnd('/') + ogImage)" />
+    }
+    <link rel="alternate" type="application/rss+xml" title="@site.Title" href="/feed.xml" />
+    <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="@theme.FontsUrl" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/themes/@(theme.Id).css" asp-append-version="true" />
+</head>
+<body>
+    @if (site.AllowThemePreview)
+    {
+        <div class="preview-bar" role="region" aria-label="Design preview">
+            <span class="preview-label">Sample designs:</span>
+            @foreach (var option in Themes.All)
+            {
+                <a href="@(path)?theme=@option.Id" class="preview-option" aria-current="@(option.Id == theme.Id ? "true" : "false")" title="@option.Description">@option.Name</a>
+            }
+        </div>
+    }
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="/">
+                <span class="brand-mark" aria-hidden="true"></span>
+                <span class="brand-name">@site.Title</span>
+            </a>
+            <nav class="site-nav" aria-label="Main">
+                <a href="/projects" aria-current="@Current("/projects")">Projects</a>
+                <a href="/blog" aria-current="@Current("/blog")">Blog</a>
+                <a href="/about" aria-current="@Current("/about")">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p class="footer-copy">© @DateTime.UtcNow.Year @site.Author</p>
+            <nav class="footer-links" aria-label="Elsewhere">
+                @foreach (var link in site.Social)
+                {
+                    <a href="@link.Url" rel="me noopener">@link.Name</a>
+                }
+                <a href="/feed.xml">RSS</a>
+            </nav>
+        </div>
+    </footer>
+
+    <dialog class="lightbox" aria-label="Image viewer">
+        <form method="dialog"><button class="lightbox-close" aria-label="Close">×</button></form>
+        <img alt="" />
+        <p class="lightbox-caption"></p>
+    </dialog>
+
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

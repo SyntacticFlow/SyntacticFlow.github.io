@@ -1,0 +1,13 @@
+@page "/error"
+@{
+    ViewData["Title"] = "Something went wrong";
+    Response.StatusCode = StatusCodes.Status500InternalServerError;
+}
+
+<section class="page-header status-page">
+    <div class="container container-narrow">
+        <p class="status-code">500</p>
+        <h1 class="page-title">Something went wrong.</h1>
+        <p class="page-lede">It's been logged. Try again in a moment, or head back <a href="/">home</a>.</p>
+    </div>
+</section>

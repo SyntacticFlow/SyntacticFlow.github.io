@@ -1,0 +1,61 @@
+@page "/blog/{slug}"
+@model Portfolio.Web.Pages.Blog.PostModel
+@{
+    var post = Model.Post;
+    ViewData["Title"] = post.Title;
+    ViewData["Description"] = post.Summary;
+    ViewData["Image"] = post.Cover;
+}
+
+<article class="post">
+    <header class="post-header">
+        <div class="container container-narrow">
+            <a class="back-link" href="/blog">← All posts</a>
+            <h1 class="post-heading">
+                @post.Title
+                @if (post.Draft)
+                {
+                    <span class="draft-badge">Draft</span>
+                }
+            </h1>
+            <p class="post-byline">
+                <time datetime="@post.Date.ToString("yyyy-MM-dd")">@post.Date.ToString("MMMM d, yyyy")</time>
+                · @post.ReadingMinutes min read
+            </p>
+            <ul class="tag-list" aria-label="Tags">
+                @foreach (var tag in post.Tags)
+                {
+                    <li><a class="tag" href="/blog?tag=@Uri.EscapeDataString(tag)">@tag</a></li>
+                }
+            </ul>
+        </div>
+    </header>
+
+    @if (post.Cover is not null)
+    {
+        <div class="container container-narrow">
+            <img class="post-cover" src="@post.Cover" alt="" />
+        </div>
+    }
+
+    <div class="container container-narrow">
+        <div class="prose">
+            @Html.Raw(post.Html)
+        </div>
+    </div>
+
+    <nav class="pager container container-narrow" aria-label="More posts">
+        @if (Model.Newer is { } newer)
+        {
+            <a class="pager-link pager-prev" href="/blog/@newer.Slug"><span>Newer</span>@newer.Title</a>
+        }
+        @if (Model.Older is { } older)
+        {
+            <a class="pager-link pager-next" href="/blog/@older.Slug"><span>Older</span>@older.Title</a>
+        }
+    </nav>
+</article>
+
+@section Scripts {
+    <partial name="_Highlight" />
+}

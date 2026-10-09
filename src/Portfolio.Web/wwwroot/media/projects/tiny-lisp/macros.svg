@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" font-family="JetBrains Mono, Menlo, monospace">
+<rect width="1280" height="800" fill="#fdf6e3"/>
+<text x="96" y="120" font-size="22" fill="#586e75" opacity=".45">; lisp.rs — a 600-line interpreter</text>
+<text x="96" y="200" font-size="40" fill="#586e75" xml:space="preserve"><tspan fill="#268bd2">(</tspan>defmacro unless <tspan fill="#d33682">(</tspan>c . body<tspan fill="#d33682">)</tspan></text>
+<text x="96" y="264" font-size="40" fill="#586e75" xml:space="preserve">  `<tspan fill="#d33682">(</tspan>if ,c nil <tspan fill="#859900">(</tspan>begin ,@body<tspan fill="#859900">)</tspan><tspan fill="#d33682">)</tspan><tspan fill="#268bd2">)</tspan></text>
+<text x="96" y="328" font-size="40" fill="#586e75" xml:space="preserve"></text>
+<text x="96" y="392" font-size="40" fill="#586e75" xml:space="preserve"><tspan fill="#268bd2">(</tspan>unless <tspan fill="#d33682">(</tspan>empty? xs<tspan fill="#d33682">)</tspan></text>
+<text x="96" y="456" font-size="40" fill="#586e75" xml:space="preserve">  <tspan fill="#d33682">(</tspan>print <tspan fill="#859900">(</tspan>car xs<tspan fill="#859900">)</tspan><tspan fill="#d33682">)</tspan><tspan fill="#268bd2">)</tspan></text>
+<text x="96" y="580" font-size="36" fill="#d33682" xml:space="preserve">λ&gt; <tspan fill="#586e75">(macroexpand '(unless t 1))</tspan></text>
+<text x="96" y="636" font-size="36" fill="#586e75" opacity=".6" xml:space="preserve">⇒ (if t nil (begin 1))</text>
+</svg>

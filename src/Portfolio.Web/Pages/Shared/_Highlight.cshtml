@@ -1,0 +1,8 @@
+@* Syntax highlighting for fenced code blocks (self-hosted highlight.js; token colours come from the theme CSS). *@
+<script src="~/lib/highlight/highlight.min.js" asp-append-version="true" defer></script>
+<script src="~/lib/highlight/glsl.min.js" asp-append-version="true" defer></script>
+<script>
+    addEventListener("DOMContentLoaded", () => {
+        if (window.hljs) document.querySelectorAll(".prose pre code").forEach(el => hljs.highlightElement(el));
+    });
+</script>
