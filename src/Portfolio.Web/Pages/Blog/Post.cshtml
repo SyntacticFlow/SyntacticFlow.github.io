@@ -10,7 +10,7 @@
 <article class="post">
     <header class="post-header">
         <div class="container container-narrow">
-            <a class="back-link" href="/blog">← All posts</a>
+            <a class="back-link" href="@Links.Blog">← All posts</a>
             <h1 class="post-heading">
                 @post.Title
                 @if (post.Draft)
@@ -25,7 +25,7 @@
             <ul class="tag-list" aria-label="Tags">
                 @foreach (var tag in post.Tags)
                 {
-                    <li><a class="tag" href="/blog?tag=@Uri.EscapeDataString(tag)">@tag</a></li>
+                    <li><a class="tag" href="@Links.BlogPage(tag, 1)">@tag</a></li>
                 }
             </ul>
         </div>
@@ -47,11 +47,11 @@
     <nav class="pager container container-narrow" aria-label="More posts">
         @if (Model.Newer is { } newer)
         {
-            <a class="pager-link pager-prev" href="/blog/@newer.Slug"><span>Newer</span>@newer.Title</a>
+            <a class="pager-link pager-prev" href="@Links.Post(newer.Slug)"><span>Newer</span>@newer.Title</a>
         }
         @if (Model.Older is { } older)
         {
-            <a class="pager-link pager-next" href="/blog/@older.Slug"><span>Older</span>@older.Title</a>
+            <a class="pager-link pager-next" href="@Links.Post(older.Slug)"><span>Older</span>@older.Title</a>
         }
     </nav>
 </article>

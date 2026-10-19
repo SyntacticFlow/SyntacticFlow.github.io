@@ -18,8 +18,8 @@ public static class FeedEndpoints
                 new XElement("description", site.Description),
                 content.Posts.Where(p => !p.Draft).Take(20).Select(post => new XElement("item",
                     new XElement("title", post.Title),
-                    new XElement("link", $"{baseUrl}/blog/{post.Slug}"),
-                    new XElement("guid", $"{baseUrl}/blog/{post.Slug}"),
+                    new XElement("link", baseUrl + Links.Post(post.Slug)),
+                    new XElement("guid", baseUrl + Links.Post(post.Slug)),
                     new XElement("pubDate", post.Date.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc).ToString("R")),
                     new XElement("description", post.Summary),
                     post.Tags.Select(t => new XElement("category", t)))));
@@ -33,9 +33,9 @@ public static class FeedEndpoints
             XNamespace ns = "http://www.sitemaps.org/schemas/sitemap/0.9";
             var baseUrl = options.Value.BaseUrl.TrimEnd('/');
 
-            var paths = new[] { "/", "/projects", "/blog", "/about" }
-                .Concat(content.Projects.Select(p => $"/projects/{p.Slug}"))
-                .Concat(content.Posts.Where(p => !p.Draft).Select(p => $"/blog/{p.Slug}"));
+            var paths = new[] { "/", Links.Projects, Links.Blog, Links.About }
+                .Concat(content.Projects.Select(p => Links.Project(p.Slug)))
+                .Concat(content.Posts.Where(p => !p.Draft).Select(p => Links.Post(p.Slug)));
 
             var urlset = new XElement(ns + "urlset", paths.Select(p => new XElement(ns + "url", new XElement(ns + "loc", baseUrl + p))));
             return Results.Text(new XDeclaration("1.0", "utf-8", null) + "\n" + urlset, "application/xml; charset=utf-8");

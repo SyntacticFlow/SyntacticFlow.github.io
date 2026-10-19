@@ -1,6 +1,6 @@
 @model Post
 <li class="post-item">
-    <a class="post-item-link" href="/blog/@Model.Slug">
+    <a class="post-item-link" href="@Links.Post(Model.Slug)">
         <time class="post-date" datetime="@Model.Date.ToString("yyyy-MM-dd")">@Model.Date.ToString("MMM d, yyyy")</time>
         <div class="post-item-body">
             <h3 class="post-title">

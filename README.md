@@ -10,30 +10,15 @@ dotnet run --project src/Portfolio.Web
 
 Then open http://localhost:5117. Content reloads automatically whenever a Markdown file changes. Run the tests with `dotnet test`.
 
-## Choosing a design
+## Design
 
-The site ships with three sample designs, and a bar at the top of every page switches between them:
-
-| Theme      | Feel |
-|------------|------|
-| `minimal`  | Editorial: serif headlines, warm paper tones, lots of whitespace |
-| `terminal` | Dark and monospaced, with prompts, `[tags]` and a blinking cursor |
-| `studio`   | Bold display type, gradient accents, big imagery and soft shadows |
-
-When you've picked one, set it in `src/Portfolio.Web/appsettings.json` and turn the preview bar off:
-
-```json
-"Site": {
-  "Theme": "studio",
-  "AllowThemePreview": false
-}
-```
+The site uses the `minimal` theme (editorial: serif headlines, warm paper tones, lots of whitespace). Two other sample themes, `terminal` and `studio`, are still in `wwwroot/css/themes/`; to switch, change `Site:Theme` in `src/Portfolio.Web/appsettings.json`.
 
 Each theme is a single file in `wwwroot/css/themes/`, layered over the shared structure in `wwwroot/css/site.css`.
 
 ## Adding a project
 
-Create `src/Portfolio.Web/Content/projects/<slug>.md`, and put its images and videos in `wwwroot/media/projects/<slug>/`. The slug becomes the URL, `/projects/<slug>`.
+Create `src/Portfolio.Web/Content/projects/<slug>.md`, and put its images and videos in `wwwroot/media/projects/<slug>/`. The slug becomes the URL, `/projects/<slug>/`.
 
 ```markdown
 ---
@@ -42,7 +27,7 @@ summary: One sentence for the card and for search results.
 date: 2026-05-14
 featured: true        # shown on the home page (up to 6)
 order: 1              # optional; lower comes first, then newest first
-tags: [Graphics, GPU] # used for filtering on /projects
+tags: [Graphics, GPU] # each tag gets a page, e.g. /projects/tag/graphics/
 tech: [C#, GLSL]      # shown on the card
 cover: cover.jpg
 video: zoom.mp4       # or a YouTube / Vimeo link
@@ -85,17 +70,28 @@ The About page lives in `Content/pages/about.md`.
 
 ## Site settings
 
-The `Site` section of `appsettings.json` holds the title, tagline, description, social links, posts per page and `BaseUrl`. Set `BaseUrl` to your real domain before deploying; the RSS feed and sitemap use it.
+The `Site` section of `appsettings.json` holds the title, tagline, description, social links, posts per page and `BaseUrl`. `BaseUrl` is the public address (`https://syntacticflow.github.io`); the RSS feed, sitemap and social cards use it.
 
-## Deploying
+## Deploying to GitHub Pages
+
+Every push to `main` runs `.github/workflows/pages.yml`, which tests the site, renders it to static HTML and deploys it to GitHub Pages. Drafts are never exported.
+
+One-time setup on GitHub:
+
+1. Rename the repository to `SyntacticFlow.github.io`, so the site is served at the domain root.
+2. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+
+To build the static site locally and look at it:
 
 ```bash
 dotnet publish src/Portfolio.Web -c Release -o out
 ```
 
-`out/` is self-contained apart from the .NET 10 runtime, and runs anywhere: Azure App Service, a Linux VM behind nginx, or a container (`dotnet publish src/Portfolio.Web -c Release /t:PublishContainer`). The `Content/` folder is published alongside the app.
+```bash
+dotnet out/Portfolio.Web.dll --export _site
+```
 
-Static files are fingerprinted and pre-compressed at publish time, so always deploy a **published** build rather than running `dotnet run` in production.
+The export starts the app, follows every link from the home page and writes each page to `_site/<path>/index.html`, with the 404 page as `_site/404.html`. It fails if any internal link is broken. Because GitHub Pages only serves files, every page URL is a plain path ending in `/`: tag filters are `/blog/tag/<tag>/` and older posts are `/blog/page/2/`, never query strings.
 
 ## Layout
 
@@ -103,7 +99,7 @@ Static files are fingerprinted and pre-compressed at publish time, so always dep
 src/Portfolio.Web/
   Content/            Markdown: projects/, posts/, pages/
   Pages/              Razor Pages (home, projects, blog, about, 404)
-  Services/           Content loading, Markdown rendering, media helpers, themes, RSS
+  Services/           Content loading, Markdown rendering, links, themes, RSS, static export
   wwwroot/css/        site.css + themes/{minimal,terminal,studio}.css
   wwwroot/media/      Images and videos, one folder per project or post
 tests/Portfolio.Tests Unit tests for content parsing, plus integration tests for every route

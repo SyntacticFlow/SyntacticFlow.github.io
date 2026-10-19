@@ -19,9 +19,6 @@ public sealed class SiteOptions
     /// <summary>One of the ids in <see cref="Themes.All"/>.</summary>
     public string Theme { get; set; } = "minimal";
 
-    /// <summary>Shows the theme switcher in the footer and honours <c>?theme=</c>. Turn off once you've picked one.</summary>
-    public bool AllowThemePreview { get; set; }
-
     public int PostsPerPage { get; set; } = 10;
 
     public List<SocialLink> Social { get; set; } = [];

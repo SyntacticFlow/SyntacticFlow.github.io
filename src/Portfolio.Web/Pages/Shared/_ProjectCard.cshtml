@@ -1,6 +1,6 @@
 @model Project
 <article class="project-card">
-    <a class="project-card-link" href="/projects/@Model.Slug">
+    <a class="project-card-link" href="@Links.Project(Model.Slug)">
         <div class="project-cover">
             @if (Model.Cover is not null)
             {

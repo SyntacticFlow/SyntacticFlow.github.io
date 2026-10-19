@@ -10,7 +10,7 @@
 <article class="project-detail">
     <header class="detail-header">
         <div class="container container-narrow">
-            <a class="back-link" href="/projects">← All projects</a>
+            <a class="back-link" href="@Links.Projects">← All projects</a>
             <h1 class="detail-title">@p.Title</h1>
             <p class="detail-lede">@p.Summary</p>
             <dl class="detail-meta">
@@ -97,11 +97,11 @@
     <nav class="pager container" aria-label="More projects">
         @if (Model.Previous is { } prev)
         {
-            <a class="pager-link pager-prev" href="/projects/@prev.Slug"><span>Previous</span>@prev.Title</a>
+            <a class="pager-link pager-prev" href="@Links.Project(prev.Slug)"><span>Previous</span>@prev.Title</a>
         }
         @if (Model.Next is { } next)
         {
-            <a class="pager-link pager-next" href="/projects/@next.Slug"><span>Next</span>@next.Title</a>
+            <a class="pager-link pager-next" href="@Links.Project(next.Slug)"><span>Next</span>@next.Title</a>
         }
     </nav>
 </article>

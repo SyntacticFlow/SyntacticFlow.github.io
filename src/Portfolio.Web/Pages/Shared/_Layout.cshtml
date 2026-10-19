@@ -1,7 +1,7 @@
 @inject IOptionsSnapshot<SiteOptions> SiteOptions
 @{
     var site = SiteOptions.Value;
-    var theme = Themes.Resolve(Context, site);
+    var theme = Themes.Find(site.Theme);
     var path = Context.Request.Path.Value ?? "/";
     var pageTitle = ViewData["Title"] is string t && t.Length > 0 ? $"{t} · {site.Title}" : $"{site.Title} — {site.Tagline}";
     var description = ViewData["Description"] as string is { Length: > 0 } d ? d : site.Description;
@@ -30,17 +30,6 @@
     <link rel="stylesheet" href="~/css/themes/@(theme.Id).css" asp-append-version="true" />
 </head>
 <body>
-    @if (site.AllowThemePreview)
-    {
-        <div class="preview-bar" role="region" aria-label="Design preview">
-            <span class="preview-label">Sample designs:</span>
-            @foreach (var option in Themes.All)
-            {
-                <a href="@(path)?theme=@option.Id" class="preview-option" aria-current="@(option.Id == theme.Id ? "true" : "false")" title="@option.Description">@option.Name</a>
-            }
-        </div>
-    }
-
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header">
@@ -50,9 +39,9 @@
                 <span class="brand-name">@site.Title</span>
             </a>
             <nav class="site-nav" aria-label="Main">
-                <a href="/projects" aria-current="@Current("/projects")">Projects</a>
-                <a href="/blog" aria-current="@Current("/blog")">Blog</a>
-                <a href="/about" aria-current="@Current("/about")">About</a>
+                <a href="@Links.Projects" aria-current="@Current("/projects")">Projects</a>
+                <a href="@Links.Blog" aria-current="@Current("/blog")">Blog</a>
+                <a href="@Links.About" aria-current="@Current("/about")">About</a>
             </nav>
         </div>
     </header>

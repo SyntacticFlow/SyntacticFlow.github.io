@@ -1,7 +1,7 @@
 @page
 @model Portfolio.Web.Pages.Blog.IndexModel
 @{
-    ViewData["Title"] = Model.Tag is null ? "Blog" : $"Posts tagged “{Model.Tag}”";
+    ViewData["Title"] = Model.TagName is null ? "Blog" : $"Posts tagged “{Model.TagName}”";
     ViewData["Description"] = "Notes on the cool things I find in the coding world.";
 }
 
@@ -12,10 +12,10 @@
         @if (Model.AllTags.Count > 0)
         {
             <nav class="filter-bar" aria-label="Filter by tag">
-                <a href="/blog" class="chip" aria-current="@(Model.Tag is null ? "true" : "false")">All</a>
+                <a href="@Links.Blog" class="chip" aria-current="@(Model.Tag is null ? "true" : "false")">All</a>
                 @foreach (var tag in Model.AllTags)
                 {
-                    <a href="/blog?tag=@Uri.EscapeDataString(tag)" class="chip" aria-current="@(string.Equals(tag, Model.Tag, StringComparison.OrdinalIgnoreCase) ? "true" : "false")">@tag</a>
+                    <a href="@Links.BlogPage(tag, 1)" class="chip" aria-current="@(tag == Model.TagName ? "true" : "false")">@tag</a>
                 }
             </nav>
         }
@@ -37,15 +37,14 @@
 
         @if (Model.TotalPages > 1)
         {
-            var tagQuery = Model.Tag is null ? "" : $"&tag={Uri.EscapeDataString(Model.Tag)}";
             <nav class="pager" aria-label="Pages">
                 @if (Model.CurrentPage > 1)
                 {
-                    <a class="pager-link pager-prev" href="/blog?page=@(Model.CurrentPage - 1)@tagQuery"><span>Newer</span>Page @(Model.CurrentPage - 1)</a>
+                    <a class="pager-link pager-prev" href="@Links.BlogPage(Model.TagName, Model.CurrentPage - 1)"><span>Newer</span>Page @(Model.CurrentPage - 1)</a>
                 }
                 @if (Model.CurrentPage < Model.TotalPages)
                 {
-                    <a class="pager-link pager-next" href="/blog?page=@(Model.CurrentPage + 1)@tagQuery"><span>Older</span>Page @(Model.CurrentPage + 1)</a>
+                    <a class="pager-link pager-next" href="@Links.BlogPage(Model.TagName, Model.CurrentPage + 1)"><span>Older</span>Page @(Model.CurrentPage + 1)</a>
                 }
             </nav>
         }

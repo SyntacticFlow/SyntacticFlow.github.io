@@ -1,7 +1,7 @@
 @page
 @model Portfolio.Web.Pages.Projects.IndexModel
 @{
-    ViewData["Title"] = "Projects";
+    ViewData["Title"] = Model.TagName is null ? "Projects" : $"Projects tagged “{Model.TagName}”";
     ViewData["Description"] = "Things I've built: tools, experiments, apps and games.";
 }
 
@@ -12,10 +12,10 @@
         @if (Model.AllTags.Count > 0)
         {
             <nav class="filter-bar" aria-label="Filter by tag">
-                <a href="/projects" class="chip" aria-current="@(Model.Tag is null ? "true" : "false")">All <span>@Model.Total</span></a>
+                <a href="@Links.Projects" class="chip" aria-current="@(Model.Tag is null ? "true" : "false")">All <span>@Model.Total</span></a>
                 @foreach (var (tag, count) in Model.AllTags)
                 {
-                    <a href="/projects?tag=@Uri.EscapeDataString(tag)" class="chip" aria-current="@(string.Equals(tag, Model.Tag, StringComparison.OrdinalIgnoreCase) ? "true" : "false")">@tag <span>@count</span></a>
+                    <a href="@Links.ProjectTag(tag)" class="chip" aria-current="@(tag == Model.TagName ? "true" : "false")">@tag <span>@count</span></a>
                 }
             </nav>
         }
@@ -26,7 +26,7 @@
     <div class="container">
         @if (Model.Projects.Count == 0)
         {
-            <p class="empty">No projects tagged “@Model.Tag” yet.</p>
+            <p class="empty">No projects tagged “@Model.TagName” yet.</p>
         }
         <div class="project-grid">
             @foreach (var project in Model.Projects)

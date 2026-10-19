@@ -18,8 +18,8 @@
         <h1 class="hero-title">@site.Tagline</h1>
         <p class="hero-lede">@site.Description</p>
         <div class="hero-actions">
-            <a class="btn btn-primary" href="/projects">See my work</a>
-            <a class="btn" href="/blog">Read the blog</a>
+            <a class="btn btn-primary" href="@Links.Projects">See my work</a>
+            <a class="btn" href="@Links.Blog">Read the blog</a>
         </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
     <div class="container">
         <div class="section-head">
             <h2 class="section-title">Featured projects</h2>
-            <a class="section-more" href="/projects">All @Store.Projects.Count projects →</a>
+            <a class="section-more" href="@Links.Projects">All @Store.Projects.Count projects →</a>
         </div>
         <div class="project-grid">
             @foreach (var project in featured)
@@ -46,7 +46,7 @@
         <div class="container">
             <div class="section-head">
                 <h2 class="section-title">Latest writing</h2>
-                <a class="section-more" href="/blog">All posts →</a>
+                <a class="section-more" href="@Links.Blog">All posts →</a>
             </div>
             <ul class="post-list">
                 @foreach (var post in posts)
